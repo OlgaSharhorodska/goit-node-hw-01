@@ -1,1 +1,2 @@
-console.log('Hello world, friends!');
+// console.log('Hello world, friends!');
+
