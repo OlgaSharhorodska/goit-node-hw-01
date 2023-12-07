@@ -1,15 +1,16 @@
 
-import fs from 'fs';
+import fs from 'fs/promises';
 // import path from 'path';
 import { nanoid } from 'nanoid';
 
-fs.readFile('././db/contacts.json', (error, data) => {
-  console.log(error.message);
-  console.log(data);
-})
+const func = async () => {
+  const path = ('./db/contacts.json');
+  const buffer = await fs.readFile(path);
+  const text = buffer.toString()
+  console.log(text);
+};
 
-const contactsPath = require('./db/contacts.json')
-console.log(contactsPath);
+func()
 
 // TODO: задокументировать каждую функцию
 function listContacts() {
