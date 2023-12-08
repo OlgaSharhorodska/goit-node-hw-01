@@ -1,7 +1,7 @@
-
 import fs from 'fs/promises';
 import path from 'path';
 import { nanoid } from 'nanoid';
+
 
 const contactsPath = path.resolve('db', 'contacts.json')
 
@@ -16,8 +16,15 @@ export const getContactById = async(id) => {
   return result || null;
 }
 
-function removeContact(contactId) {
-  // ...твой код. Возвращает объект удаленного контакта. Возвращает null, если объект с таким id не найден.
+export const removeContact = async (id) => {
+  const contacts = await listContacts();
+  const index = contacts.findIndex(item => item.id === id)
+  if (index === -1) {
+    return null
+  }
+  contacts[index] = contacts.splice(index, 1);
+  await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
+  return result;
 }
 
 export const addContact = async(data)=> {
