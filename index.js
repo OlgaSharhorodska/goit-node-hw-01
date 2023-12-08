@@ -1,25 +1,42 @@
-import * as contactsService from './db/contacts.js'
-
-const argv = require('yargs').argv;
+import * as contactsService from './db/contacts.js';
+import { program } from 'commander';
 
 const invokeAction = async ({ action, id, name, email, phone }) => {
-    switch (action) {
-        case 'list':
-            const allContacts = await contactsService.listContacts();
-            break;
-        case 'get':
-            const getContactById = await contactsService.getContactById(id);
-            break;
-        case 'add':
-            const addContact = await contactsService.addContact(name, email, phone);
-            break;
-        case 'remove':
-            const removeContact = await contactsService.removeContact(id);
-            break;
-        default:
-            console.warn('\x1B[31m Unknown action type!');
-    }
+  switch (action) {
+    case 'list':
+          const allContacts = await contactsService.listContacts();
+          console.log(allContacts);
+      break;
+    case 'get':
+          const getContactById = await contactsService.getContactById(id);
+          console.log(getContactById);
+      break;
+    case 'add':
+          const addNewContact = await contactsService.addContact(
+            name,
+            email,
+            phone
+          );
+          console.log(addNewContact);
+      break;
+    case 'remove':
+          const removeContact = await contactsService.removeContact(id);
+          console.log(removeContact);
+          break;
+      
+    default:
+      console.warn('\x1B[31m Unknown action type!');
+  }
 };
 
-invokeAction(argv);
+program
+  .option('--action <type>')
+  .option('--id <type>')
+  .option('--name <type>')
+  .option('--email <type>')
+  .option('--phone <type>');
+  
+program.parse();
 
+const argv = program.opts();
+invokeAction(argv);
